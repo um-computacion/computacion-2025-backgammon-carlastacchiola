@@ -10,6 +10,9 @@ class dice:
         return value
     
     
+    def roll(self):
+        self.values = [random.randint(1, 6), random.randint(1, 6)]
+        return self.values
 
 
     

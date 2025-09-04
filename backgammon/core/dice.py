@@ -1,6 +1,6 @@
 import random 
 
-class dice:
+class Dice:
     def __init__(self):
         self.values = []
 

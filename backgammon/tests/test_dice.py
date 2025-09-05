@@ -22,5 +22,11 @@ class TestDice(unittest.TestCase):
                 self.assertGreaterEqual(v, 1)
                 self.assertLessEqual(v, 6)
 
+
+    def test_values_stored_correctly(self):
+        result = self.dice.roll()
+        self.assertEqual(result, self.dice.values)
+
+
 if __name__ == "__main__":
     unittest.main()

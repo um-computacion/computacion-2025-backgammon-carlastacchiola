@@ -29,3 +29,5 @@ SPRINT 1
 09/09/2025 commit 14: modificando README.md
 
 10/09/2025 commit 15: modificando CHANGELOG.md
+
+13/09/2025 commit 16: actualizacion y seguimiento de CHANGELOG.md

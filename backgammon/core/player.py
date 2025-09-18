@@ -31,6 +31,11 @@ class player:
 
     def has_won(self) -> bool:
         return self.__checkers__ == 0 and self.__captured__ == 0
+    
+    def bear_off_checker(self):
+        if self.__checkers__ > 0:
+            self.__checkers__ -= 1
+
 
     def __str__(self):
         return (f"Jugador {self.__name__} ({self.__color__}) "

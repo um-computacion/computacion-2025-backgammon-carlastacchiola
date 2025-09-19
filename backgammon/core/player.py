@@ -36,10 +36,11 @@ class player:
         if self.__checkers__ > 0:
             self.__checkers__ -= 1
 
-
     def __str__(self):
         return (f"Jugador {self.__name__} ({self.__color__}) "
                 f"- Fichas: {self.__checkers__}, Capturadas: {self.__captured__}")
     
+    def can_move(self) -> bool:
+        return self.__checkers__ > 0 or self.__captured__ > 0
 
     

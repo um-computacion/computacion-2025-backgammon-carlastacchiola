@@ -1,6 +1,7 @@
 class player:
 
-    def __init__(self, name: str, color: str ):
+    def __init__(self,id: int, name: str, color: str ):
+        self.__id__ = id
         self.__name__ = name
         self.__color__ = color
         self.__checkers__ = 15

@@ -6,6 +6,16 @@ class player:
         self.__color__ = color
         self.__checkers__ = 15
         self.__captured__ = 0
+        self.__score__ = 0
+
+    def add_score(self, points: int):
+        self.__score__ += points
+
+    def get_score(self) -> int:
+        return self.__score__
+
+
+
 
     def get_name(self) -> str:
         return self.__name__

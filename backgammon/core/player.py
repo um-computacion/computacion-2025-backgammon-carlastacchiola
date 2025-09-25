@@ -8,49 +8,58 @@ class player:
         self.__captured__ = 0
         self.__score__ = 0
 
+    #suma puntos al marcador del jugador
     def add_score(self, points: int):
         self.__score__ += points
 
+    #devuelve puntaje actual 
     def get_score(self) -> int:
         return self.__score__
 
-
-
-
+    #nombre jugador
     def get_name(self) -> str:
         return self.__name__
-    
+
+    #devuelve color jugador
     def get_color(self) -> str:
         return self.__color__
     
+    #cantidad de fichas en el tablero
     def get_checkers(self) ->int:
         return self.__checkers__
     
+    #cantidad de fichas capturadas
     def get_captured(self) -> int:
         return self.__captured__
 
-
+    #captura ficha del tablero y la envía a la barra
     def capture_checker(self):
          if self.__checkers__ > 0:
             self.__checkers__ -= 1
             self.__captured__ += 1
+    
 
+    #reingresa ficha desde la barra al tablero
     def reenter_checker(self):
         if self.__captured__ > 0:
             self.__captured__ -= 1
             self.__checkers__ += 1
 
+    #devuelve true si el jugador ya ganó
     def has_won(self) -> bool:
         return self.__checkers__ == 0 and self.__captured__ == 0
     
+    #saca una ficha definitivamente del tablero
     def bear_off_checker(self):
         if self.__checkers__ > 0:
             self.__checkers__ -= 1
 
+    #estado del jugador 
     def __str__(self):
         return (f"Jugador {self.__name__} ({self.__color__}) "
                 f"- Fichas: {self.__checkers__}, Capturadas: {self.__captured__}")
     
+    #devuelve true si el jugador puede mover fichas
     def can_move(self) -> bool:
         return self.__checkers__ > 0 or self.__captured__ > 0
 

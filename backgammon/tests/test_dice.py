@@ -6,6 +6,9 @@ class TestDice(unittest.TestCase):
     def setUp(self):
         self.dice = Dice()
 
+    def test_init(self):
+        self.assertEqual(self.dice.values, [])
+
     def test_roll_single_in_range(self):
         """El dado simple siempre debe estar entre 1 y 6"""
         for _ in range(100):  

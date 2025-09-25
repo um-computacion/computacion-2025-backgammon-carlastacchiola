@@ -1,5 +1,7 @@
 import unittest
 from backgammon.core.player import player
+from backgammon.core.player import player
+from math import sqrt
 
 class TestPlayer(unittest.TestCase):
 

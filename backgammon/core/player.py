@@ -58,7 +58,6 @@ class player:
     def __str__(self):
         return (f"Jugador {self.__name__} ({self.__color__}) "
                 f"- Fichas: {self.__checkers__}, Capturadas: {self.__captured__}")
-    
     #devuelve true si el jugador puede mover fichas
     def can_move(self) -> bool:
         return self.__checkers__ > 0 or self.__captured__ > 0

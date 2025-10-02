@@ -62,19 +62,14 @@ class player:
             self.__captured__ += 1
             self.add_history("capturo ficha")
 
+    #reingresa ficha desde la barra al tablero
     def reenter_checker(self):
         if self.__captured__ > 0:
             self.__captured__ -= 1
             self.__checkers__ += 1
             self.add_history("reingreso ficha")
 
-        
 
-    #reingresa ficha desde la barra al tablero
-    def reenter_checker(self):
-        if self.__captured__ > 0:
-            self.__captured__ -= 1
-            self.__checkers__ += 1
 
     #devuelve true si el jugador ya ganó
     def has_won(self) -> bool:

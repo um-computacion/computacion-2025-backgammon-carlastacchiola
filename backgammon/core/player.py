@@ -13,7 +13,7 @@ class player:
         self.__score__ = 0
         self.__turns__ = 0
         self.__history__ = []
-        
+
 
     #suma puntos al marcador del jugador
     def add_score(self, points: int):
@@ -49,13 +49,26 @@ class player:
     def get_borne_off(self) -> int:
         return self.__borne_off__
     
+    def get_turns(self) -> int:
+        return self.__turns__
+
+
+
 
     #captura ficha del tablero y la envía a la barra
     def capture_checker(self):
          if self.__checkers__ > 0:
             self.__checkers__ -= 1
             self.__captured__ += 1
-    
+            self.add_history("capturo ficha")
+
+    def reenter_checker(self):
+        if self.__captured__ > 0:
+            self.__captured__ -= 1
+            self.__checkers__ += 1
+            self.add_history("reingreso ficha")
+
+        
 
     #reingresa ficha desde la barra al tablero
     def reenter_checker(self):

@@ -9,7 +9,11 @@ class player:
         #estado juego
         self.__checkers__ = 15
         self.__captured__ = 0
+        self.__borne_off__ = 0
         self.__score__ = 0
+        self.__turns__ = 0
+        self.__history__ = []
+        
 
     #suma puntos al marcador del jugador
     def add_score(self, points: int):
@@ -41,6 +45,10 @@ class player:
     #cantidad de fichas capturadas
     def get_captured(self) -> int:
         return self.__captured__
+    
+    def get_borne_off(self) -> int:
+        return self.__borne_off__
+    
 
     #captura ficha del tablero y la envía a la barra
     def capture_checker(self):

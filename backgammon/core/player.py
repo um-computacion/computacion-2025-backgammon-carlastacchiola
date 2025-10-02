@@ -1,9 +1,12 @@
 class player:
 
     def __init__(self,id: int, name: str, color: str ):
+        #identificacion y datos
         self.__id__ = id
         self.__name__ = name
         self.__color__ = color
+
+        #estado juego
         self.__checkers__ = 15
         self.__captured__ = 0
         self.__score__ = 0
@@ -16,6 +19,10 @@ class player:
     def get_score(self) -> int:
         return self.__score__
 
+    # id jugador
+    def get_id(self) -> int:
+        return self.__id__
+    
     #nombre jugador
     def get_name(self) -> str:
         return self.__name__

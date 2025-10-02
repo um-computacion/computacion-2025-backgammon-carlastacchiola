@@ -31,6 +31,9 @@ class player:
     def get_color(self) -> str:
         return self.__color__
     
+    def set_color(self, color: str):
+        self.__color__ = color
+    
     #cantidad de fichas en el tablero
     def get_checkers(self) ->int:
         return self.__checkers__

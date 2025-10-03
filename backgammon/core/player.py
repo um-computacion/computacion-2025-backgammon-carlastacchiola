@@ -60,14 +60,29 @@ class player:
          if self.__checkers__ > 0:
             self.__checkers__ -= 1
             self.__captured__ += 1
-            self.add_history("capturo ficha")
+            self.add_history("capturó ficha")
 
     #reingresa ficha desde la barra al tablero
     def reenter_checker(self):
         if self.__captured__ > 0:
             self.__captured__ -= 1
             self.__checkers__ += 1
-            self.add_history("reingreso ficha")
+            self.add_history("reingresó ficha")
+
+
+
+
+
+    def bear_off_checker(self):
+        if self.__checkers__ > 0:
+            self.__checkers__ -= 1
+            self.__borne_off__ += 1
+            self.add_history("sacó ficha")
+
+    def add_turn(self):
+        self.__turns__ += 1
+        self.add_history("jugó un turno")
+
 
 
 

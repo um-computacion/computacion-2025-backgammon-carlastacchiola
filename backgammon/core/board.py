@@ -38,3 +38,14 @@ def Board():
         
         # Inicializar con posición estándar
         self._setup_initial_position()
+
+    def _setup_initial_position(self):
+        """
+        Configura el tablero con la posición inicial estándar de Backgammon. 
+        Args:
+            None
+        Returns:
+            None
+        """
+        for point, (count, player) in self.INITIAL_POSITION.items():
+            self.__points__[point] = (count, player)

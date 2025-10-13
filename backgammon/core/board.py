@@ -1,3 +1,5 @@
+from typing import List, Optional, Tuple
+
 def Board():
     
      # Posiciones iniciales estándar de Backgammon
@@ -49,3 +51,18 @@ def Board():
         """
         for point, (count, player) in self.INITIAL_POSITION.items():
             self.__points__[point] = (count, player)
+
+    def get_point(self, position: int) -> Tuple[int, int]:
+        """
+        Obtiene el estado de un punto específico del tablero.
+        Args:
+            position (int): Número del punto (1-24).
+        Returns:
+            tuple: (cantidad_fichas, id_jugador) en ese punto.
+        Raises:
+            ValueError: Si la posición está fuera del rango válido.
+        """
+        if position < 1 or position > 24:
+            raise ValueError(f"Posición inválida: {position}. Debe estar entre 1 y 24")
+        
+        return self.__points__[position]

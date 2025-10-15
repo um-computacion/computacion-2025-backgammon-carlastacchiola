@@ -79,3 +79,24 @@ def Board():
             list: Lista con el estado de los puntos 1-24.
         """
         return self.__points__[1:25].copy()
+
+
+    def get_bar(self, player_id: int) -> int:
+        """
+        Obtiene la cantidad de fichas en la barra de un jugador.
+        
+        Args:
+            player_id (int): ID del jugador (1 o 2).
+        
+        Returns:
+            int: Cantidad de fichas capturadas del jugador.
+        
+        Raises:
+            ValueError: Si el ID del jugador no es válido.
+        """
+        if player_id == 1:
+            return self.__bar_player1__
+        elif player_id == 2:
+            return self.__bar_player2__
+        else:
+            raise ValueError(f"ID de jugador inválido: {player_id}. Debe ser 1 o 2")

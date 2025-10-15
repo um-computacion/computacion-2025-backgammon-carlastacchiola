@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple
 
-def Board():
+class Board():
     
      # Posiciones iniciales estándar de Backgammon
     INITIAL_POSITION = {
@@ -98,5 +98,25 @@ def Board():
             return self.__bar_player1__
         elif player_id == 2:
             return self.__bar_player2__
+        else:
+            raise ValueError(f"ID de jugador inválido: {player_id}. Debe ser 1 o 2")
+        
+    def get_borne_off(self, player_id: int) -> int:
+        """
+        Obtiene la cantidad de fichas sacadas del tablero por un jugador.
+        
+        Args:
+            player_id (int): ID del jugador (1 o 2).
+        
+        Returns:
+            int: Cantidad de fichas fuera del tablero.
+        
+        Raises:
+            ValueError: Si el ID del jugador no es válido.
+        """
+        if player_id == 1:
+            return self.__borne_off_player1__
+        elif player_id == 2:
+            return self.__borne_off_player2__
         else:
             raise ValueError(f"ID de jugador inválido: {player_id}. Debe ser 1 o 2")

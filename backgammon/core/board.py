@@ -66,3 +66,16 @@ def Board():
             raise ValueError(f"Posición inválida: {position}. Debe estar entre 1 y 24")
         
         return self.__points__[position]
+
+
+    def get_all_points(self) -> List[Tuple[int, int]]:
+        """
+        Obtiene el estado completo del tablero.
+        
+        Args:
+            None
+        
+        Returns:
+            list: Lista con el estado de los puntos 1-24.
+        """
+        return self.__points__[1:25].copy()

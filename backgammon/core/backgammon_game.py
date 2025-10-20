@@ -1,2 +1,2 @@
-def backgammon_game():
+class backgammon_game():
     ...

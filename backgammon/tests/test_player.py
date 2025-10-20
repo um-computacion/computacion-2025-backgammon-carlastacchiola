@@ -1,12 +1,12 @@
 import unittest
-from backgammon.core.player import player
-from backgammon.core.player import player
+from backgammon.core.player import Player
+from backgammon.core.player import  Player
 from math import sqrt
 
 class TestPlayer(unittest.TestCase):
 
     def setUp(self):
-        self.player = player(1, "Carla", "blanco")
+        self.player =   Player(1, "Carla", "blanco")
 
     def test_inicializacion(self):
         self.assertEqual(self.player.get_name(), "Carla")

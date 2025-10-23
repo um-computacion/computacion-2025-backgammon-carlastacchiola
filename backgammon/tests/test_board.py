@@ -4,7 +4,7 @@ Verifica la inicialización, movimientos, capturas, bloqueos y errores esperados
 """
 
 import unittest
-from core.board import Board
+from backgammon.core.board import Board
 
 
 class TestBoard(unittest.TestCase):

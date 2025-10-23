@@ -1,4 +1,4 @@
-from core.dice import Dice
+from backgammon.core.dice import Dice
 
 def decide_first_player():
     dice = Dice()
@@ -12,9 +12,9 @@ def decide_first_player():
     else:
         return "Empate", [jugador1, jugador2]
 
+
 def main():
     print("Decidiendo quién comienza la partida...\n")
-
     winner, values = decide_first_player()
 
     print(f"Jugador 1 tiró: {values[0]}")
@@ -25,5 +25,7 @@ def main():
     else:
         print("⚖️ Empate, volver a tirar.")
 
+
 if __name__ == "__main__":
     main()
+

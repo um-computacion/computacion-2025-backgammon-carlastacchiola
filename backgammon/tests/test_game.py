@@ -4,9 +4,9 @@ Adaptado a la versión con atributos __nombre__ y __board__.
 """
 
 import unittest
-from core.backgammon_game import BackgammonGame
-from core.player import Player
-from core.board import Board
+from backgammon.core.backgammon_game import BackgammonGame
+from backgammon.core.player import Player
+from backgammon.core.board import Board
 
 
 class TestBackgammonGame(unittest.TestCase):

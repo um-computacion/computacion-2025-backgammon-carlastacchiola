@@ -1,9 +1,9 @@
 from typing import List, Tuple, Optional
 import json
 
-from core.board import Board
-from core.dice import Dice
-from core.player import Player
+from backgammon.core.dice import Dice
+from backgammon.core.player import Player
+from backgammon.core.board import Board
 
 
 class BackgammonGame:

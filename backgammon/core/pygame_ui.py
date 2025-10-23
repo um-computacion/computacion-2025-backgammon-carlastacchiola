@@ -1,3 +1,3 @@
-def pygame_ui():
+class pygame_ui():
     ...
     

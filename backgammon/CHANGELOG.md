@@ -20,6 +20,8 @@ SPRINT 1
 
 03/09/2025 commit 10: incorporando clase dice en cli
 
+SPRINT 2
+
 04/09/2025 commit 11: creacion test_dice
 
 05/09/2025 commit 12: modificando test_dice
@@ -31,3 +33,15 @@ SPRINT 1
 10/09/2025 commit 15: modificando CHANGELOG.md
 
 13/09/2025 commit 16: actualizacion y seguimiento de CHANGELOG.md
+
+16/09/2025 commit 17: creacion de clase player; implementacion de getters clase player; test de clase player
+
+17/09/2025 commit 18: test de clase player
+
+SPRINT 3
+
+18/09/2025 commit 19: implementacion can_move en clase player
+
+19/09/2025 commit 20: actualizacion CHANGELOG.md
+
+22/09/2025 commit 21: actualizacion CHANGELOG.md; implementacion id en clase player

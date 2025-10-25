@@ -52,6 +52,17 @@ class BackgammonGame:
     def get_current_player(self) -> Player:
         """Devuelve el jugador cuyo turno es actualmente."""
         return self.__players__[self.__current_player_index__]
+    
+    def get_board(self) -> Board:
+        """
+        Devuelve el tablero actual del juego.
+
+        Returns:
+            Board: instancia del tablero asociada al juego.
+        """
+        return self.__board__
+   
+
 
     def switch_turn(self):
         """Cambia el turno al siguiente jugador."""

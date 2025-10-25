@@ -21,9 +21,9 @@ def main():
     print(f"Jugador 2 tiró: {values[1]}")
 
     if winner != "Empate":
-        print(f"👉 {winner} comienza la partida.")
+        print(f" {winner} comienza la partida.")
     else:
-        print("⚖️ Empate, volver a tirar.")
+        print(" Empate, volver a tirar.")
 
 
 if __name__ == "__main__":

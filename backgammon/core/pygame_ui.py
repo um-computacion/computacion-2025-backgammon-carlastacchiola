@@ -1,3 +1,2 @@
-class pygame_ui():
-    ...
-    
+#Pygame --> Interfaz gráfica
+

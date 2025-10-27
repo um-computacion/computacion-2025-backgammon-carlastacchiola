@@ -262,3 +262,5 @@ class BackgammonGame:
         lines.append(f"Dados disponibles: {self.__turn_dice_values__}")
         lines.append("=========================================")
         return "\n".join(lines)
+
+

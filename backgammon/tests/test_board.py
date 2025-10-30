@@ -1,146 +1,187 @@
 import unittest
-from backgammon.core.board import Board
+from backgammon.core.board import Board, WHITE, BLACK
 
 
 class TestBoard(unittest.TestCase):
-
     def setUp(self):
-        """Crea un tablero nuevo antes de cada test."""
-        self.board = Board()
+        self.b = Board()
 
-    # --------------------------
-    # Inicialización
-    # --------------------------
-    def test_initial_setup(self):
-        """Verifica que el tablero se inicialice correctamente."""
-        points = self.board.get_all_points()
-        self.assertEqual(len(points), 24)
-        self.assertEqual(self.board.get_point(1), (2, 1))
-        self.assertEqual(self.board.get_point(6), (5, 2))
-        self.assertEqual(self.board.get_bar(1), 0)
-        self.assertEqual(self.board.get_bar(2), 0)
+    # ----------------------------------------------------------
+    # 1. SETUP INICIAL
+    # ----------------------------------------------------------
+    def test_setup_initial(self):
+        # Blancas
+        self.assertEqual(self.b.points[23], (WHITE, 2))
+        self.assertEqual(self.b.points[12], (WHITE, 5))
+        self.assertEqual(self.b.points[7], (WHITE, 3))
+        self.assertEqual(self.b.points[5], (WHITE, 5))
+        # Negras
+        self.assertEqual(self.b.points[0], (BLACK, 2))
+        self.assertEqual(self.b.points[11], (BLACK, 5))
+        self.assertEqual(self.b.points[16], (BLACK, 3))
+        self.assertEqual(self.b.points[18], (BLACK, 5))
+        # Barras y borne_off vacíos
+        self.assertEqual(self.b.bar[WHITE], 0)
+        self.assertEqual(self.b.borne_off[BLACK], 0)
 
-    def test_get_point_invalid(self):
-        """Debe lanzar error si la posición es inválida."""
-        with self.assertRaises(ValueError):
-            self.board.get_point(0)
-        with self.assertRaises(ValueError):
-            self.board.get_point(25)
+    # ----------------------------------------------------------
+    # 2. UTILIDADES
+    # ----------------------------------------------------------
+    def test_opponent_direction_home_range_dest(self):
+        b = self.b
+        self.assertEqual(b.opponent(WHITE), BLACK)
+        self.assertEqual(b.opponent(BLACK), WHITE)
+        self.assertEqual(b.direction(WHITE), -1)
+        self.assertEqual(b.direction(BLACK), 1)
+        self.assertEqual(list(b.home_range(WHITE)), [0, 1, 2, 3, 4, 5])
+        self.assertEqual(list(b.home_range(BLACK)), [18, 19, 20, 21, 22, 23])
+        self.assertEqual(b.dest_index(WHITE, 23, 3), 20)
+        self.assertEqual(b.dest_index(BLACK, 0, 4), 4)
 
-    # --------------------------
-    # Barra y borne off
-    # --------------------------
-    def test_get_bar_invalid_player(self):
-        """Debe lanzar error si el ID de jugador no es válido."""
-        with self.assertRaises(ValueError):
-            self.board.get_bar(3)
+    # ----------------------------------------------------------
+    # 3. BLOQUEOS
+    # ----------------------------------------------------------
+    def test_point_is_blocked_and_bar_entry(self):
+        b = self.b
+        self.assertTrue(b.point_is_blocked(WHITE, 11))
+        self.assertFalse(b.point_is_blocked(BLACK, 11))
+        self.assertFalse(b.point_is_blocked(WHITE, -1))
+        self.assertFalse(b.point_is_blocked(WHITE, 50))
+        self.assertEqual(b.enter_from_bar_targets(WHITE, 6), [18])
+        self.assertEqual(b.enter_from_bar_targets(BLACK, 6), [5])
 
-    def test_add_to_bar_and_reenter(self):
-        """Agrega y quita fichas de la barra correctamente."""
-        self.board.add_to_bar(1)
-        self.assertEqual(self.board.get_bar(1), 1)
-        self.board.reenter_from_bar(1)
-        self.assertEqual(self.board.get_bar(1), 0)
+    # ----------------------------------------------------------
+    # 4. BEARING OFF - allowed y distance
+    # ----------------------------------------------------------
+    def test_bearing_off_allowed_false_initial(self):
+        self.assertFalse(self.b.bearing_off_allowed(WHITE))
+        self.assertFalse(self.b.bearing_off_allowed(BLACK))
 
-    def test_reenter_from_empty_bar(self):
-        """Debe lanzar error si se intenta reingresar sin fichas."""
-        with self.assertRaises(ValueError):
-            self.board.reenter_from_bar(1)
+    def test_bearing_off_allowed_true_when_all_home(self):
+        b = self.b
+        b.points = [(0, 0)] * 24
+        for i in range(6):
+            b.points[i] = (WHITE, 2)
+        b.borne_off[WHITE] = 3
+        self.assertTrue(b.bearing_off_allowed(WHITE))
+        b.bar[WHITE] = 1
+        self.assertFalse(b.bearing_off_allowed(WHITE))
 
-    def test_bear_off_checker(self):
-        """Debe incrementar correctamente el borne off."""
-        self.board.bear_off_checker(1)
-        self.assertEqual(self.board.get_borne_off(1), 1)
-        self.board.bear_off_checker(2)
-        self.assertEqual(self.board.get_borne_off(2), 1)
+    def test_distance_to_bear_off(self):
+        b = self.b
+        self.assertEqual(b.distance_to_bear_off(WHITE, 0), 1)
+        self.assertEqual(b.distance_to_bear_off(WHITE, 5), 6)
+        self.assertEqual(b.distance_to_bear_off(BLACK, 23), 1)
+        self.assertEqual(b.distance_to_bear_off(BLACK, 18), 6)
 
-    def test_bear_off_invalid_id(self):
-        """Debe lanzar error con ID inválido."""
-        with self.assertRaises(ValueError):
-            self.board.bear_off_checker(99)
+    # ----------------------------------------------------------
+    # 5. CAN BEAR OFF
+    # ----------------------------------------------------------
+    def test_can_bear_off_true_only_if_all_home(self):
+        b = self.b
+        b.points = [(0, 0)] * 24
+        # Negras: su casa está en 0–5
+        for i in range(0, 6):
+            b.points[i] = (BLACK, 2)
+        self.assertTrue(b.can_bear_off(BLACK))
+        # Si una está fuera de la casa → False
+        b.points[10] = (BLACK, 1)
+        self.assertFalse(b.can_bear_off(BLACK))
 
-    # --------------------------
-    # Movimientos
-    # --------------------------
-    def test_move_checker_to_empty(self):
-        """Mueve una ficha a un punto vacío correctamente."""
-        self.board.move_checker(1, 2, 1)
-        self.assertEqual(self.board.get_point(1), (1, 1))
-        self.assertEqual(self.board.get_point(2), (1, 1))
 
-    def test_move_checker_to_same_player(self):
-        """Mueve una ficha a un punto con fichas del mismo jugador."""
-        # punto 12 tiene 5 fichas del jugador 1
-        self.board.move_checker(12, 11, 1)
-        count, player = self.board.get_point(11)
-        self.assertEqual(player, 1)
-        self.assertEqual(count, 1)
+    def test_can_bear_off_with_die(self):
+        b = self.b
+        b.points = [(0, 0)] * 24
+        for i in range(6):
+            b.points[i] = (WHITE, 2)
+        b.borne_off[WHITE] = 3
+        self.assertTrue(b.can_bear_off_with_die(WHITE, 3))
+        # Si tiene una en la barra, no puede
+        b.bar[WHITE] = 1
+        self.assertFalse(b.can_bear_off_with_die(WHITE, 3))
 
-    def test_move_checker_invalid_position(self):
-        """Debe lanzar error con posiciones inválidas."""
-        with self.assertRaises(ValueError):
-            self.board.move_checker(0, 10, 1)
-        with self.assertRaises(ValueError):
-            self.board.move_checker(1, 30, 2)
+    # ----------------------------------------------------------
+    # 6. BEAR OFF PIECE
+    # ----------------------------------------------------------
+    def test_bear_off_piece_exact_and_search(self):
+        b = self.b
+        b.points = [(0, 0)] * 24
+        b.points[0] = (WHITE, 2)
+        b.bear_off_piece(WHITE, 0, range(5, -1, -1))
+        self.assertEqual(b.points[0], (WHITE, 1))
+        self.assertEqual(b.borne_off[WHITE], 1)
+        b.points[0] = (0, 0)
+        b.points[3] = (WHITE, 1)
+        b.bear_off_piece(WHITE, 0, range(5, -1, -1))
+        self.assertEqual(b.borne_off[WHITE], 2)
 
-    def test_move_checker_invalid_player(self):
-        """Debe lanzar error con jugador inválido."""
-        with self.assertRaises(ValueError):
-            self.board.move_checker(1, 2, 3)
+    # ----------------------------------------------------------
+    # 7. HIT TESTS
+    # ----------------------------------------------------------
+    def test_apply_hit_if_any(self):
+        b = self.b
+        b.points[10] = (BLACK, 1)
+        b.apply_hit_if_any(WHITE, 10)
+        self.assertEqual(b.bar[BLACK], 1)
+        self.assertEqual(b.points[10], (0, 0))
+        b.points[5] = (BLACK, 2)
+        b.apply_hit_if_any(WHITE, 5)
+        self.assertEqual(b.points[5], (BLACK, 2))  # No golpea si hay más de una
 
-    def test_move_checker_no_piece(self):
-        """Debe lanzar error si el punto de inicio no tiene fichas del jugador."""
-        with self.assertRaises(ValueError):
-            self.board.move_checker(2, 3, 1)
+    # ----------------------------------------------------------
+    # 8. MOVE CHECKER - casos completos
+    # ----------------------------------------------------------
+    def test_move_checker_from_bar_success_and_blocked(self):
+        b = self.b
+        b.bar[WHITE] = 1
+        b.points[23] = (0, 0)
+        self.assertTrue(b.move_checker(WHITE, None, 1))
+        self.assertEqual(b.bar[WHITE], 0)
+        # bloqueado
+        b.bar[WHITE] = 1
+        b.points[23] = (BLACK, 2)
+        self.assertFalse(b.move_checker(WHITE, None, 1))
 
-    def test_move_checker_capture(self):
-        """Debe capturar correctamente una ficha rival solitaria."""
-        # Asegurar que el punto 1 tenga una ficha del jugador 1
-        self.board._points[1] = (1, 1)
-        # Y el punto 2 tenga una ficha rival (una sola)
-        self.board._points[2] = (1, 2)
+    def test_move_checker_normal_and_blocked(self):
+        b = self.b
+        b.points[23] = (WHITE, 1)
+        b.points[22] = (0, 0)
+        self.assertTrue(b.move_checker(WHITE, 23, 1))
+        b.points[22] = (BLACK, 3)
+        self.assertFalse(b.move_checker(WHITE, 23, 1))
 
-        self.board.move_checker(1, 2, 1)
-        self.assertEqual(self.board.get_point(2), (1, 1))
-        self.assertEqual(self.board.get_bar(2), 1)
+    def test_move_checker_bearing_off_success_and_fail(self):
+        b = self.b
+        b.points = [(0, 0)] * 24
+        for i in range(6):
+            b.points[i] = (WHITE, 2)
+        b.borne_off[WHITE] = 3
+        b.bar[WHITE] = 0
+        self.assertTrue(b.bearing_off_allowed(WHITE))
+        self.assertTrue(b.move_checker(WHITE, 0, 6))
+        # Caso fallido (bar con ficha)
+        b.bar[WHITE] = 1
+        self.assertFalse(b.move_checker(WHITE, 0, 6))
 
-    def test_move_checker_blocked_point(self):
-        """Debe lanzar error si el punto destino está bloqueado por el rival."""
-        self.board._points[2] = (3, 2)
-        with self.assertRaises(ValueError):
-            self.board.move_checker(1, 2, 1)
+    def test_move_checker_invalid_owner_or_empty(self):
+        b = self.b
+        b.points[5] = (0, 0)
+        self.assertFalse(b.move_checker(WHITE, 5, 1))
+        b.points[5] = (BLACK, 1)
+        self.assertFalse(b.move_checker(WHITE, 5, 1))
 
-    # --------------------------
-    # Carga, historial y reset
-    # --------------------------
-    def test_load_points_valid(self):
-        """Debe cargar correctamente un nuevo estado de tablero."""
-        new_points = [(1, 1)] * 24
-        self.board.load_points(new_points)
-        self.assertEqual(self.board.get_point(5), (1, 1))
-
-    def test_load_points_invalid_length(self):
-        """Debe lanzar error si la lista no tiene 24 elementos."""
-        with self.assertRaises(ValueError):
-            self.board.load_points([(1, 1)] * 10)
-
-    def test_get_history_and_reset(self):
-        """Verifica que el historial se registre y el tablero se reinicie."""
-        self.board.move_checker(1, 2, 1)
-        history = self.board.get_history()
-        self.assertEqual(len(history), 1)
-        self.board.reset_board()
-        self.assertEqual(self.board.get_bar(1), 0)
-
-    # --------------------------
-    # Representación de texto
-    # --------------------------
-    def test_str_contains_points_and_bar(self):
-        """El string del tablero debe mostrar puntos, barra y borne off."""
-        texto = str(self.board)
-        self.assertIn("Punto  1", texto)
-        self.assertIn("Barra →", texto)
-        self.assertIn("Borne Off", texto)
+    # ----------------------------------------------------------
+    # 9. RESET
+    # ----------------------------------------------------------
+    def test_reset(self):
+        b = self.b
+        b.points[0] = (WHITE, 3)
+        b.bar[WHITE] = 2
+        b.borne_off[BLACK] = 4
+        b.reset()
+        self.assertEqual(b.points[23], (WHITE, 2))
+        self.assertEqual(b.bar[WHITE], 0)
+        self.assertEqual(b.borne_off[BLACK], 0)
 
 
 if __name__ == "__main__":

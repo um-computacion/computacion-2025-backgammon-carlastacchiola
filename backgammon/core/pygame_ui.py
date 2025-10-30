@@ -1,2 +1,0 @@
-#Pygame --> Interfaz gráfica
-

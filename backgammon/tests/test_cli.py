@@ -1,24 +1,91 @@
+# backgammon/tests/test_cli.py
 import unittest
-from unittest.mock import patch
-from backgammon.cli.cli import decide_first_player
+from unittest.mock import patch, MagicMock
+from io import StringIO
+from backgammon.cli.cli import CLI
+from backgammon.core.board import WHITE, BLACK
 
 
-class TestFirstPlayerDecision(unittest.TestCase):
+class FakeGame:
+    """Game falso para probar CLI sin lógica real."""
+    def __init__(self):
+        self.current_player = WHITE
+        self.points = [(0, 0)] * 24
+        self.bar = {WHITE: 0, BLACK: 0}
+        self.borne_off = {WHITE: 0, BLACK: 0}
+        self.dice = MagicMock()
+        self.dice.values = [1, 6]
+        self.dice.is_empty.return_value = False
+        self._game_over = False
 
-    @patch("backgammon.core.dice.random.randint", side_effect=[6, 3])
-    def test_player1_wins(self, mock_randint):
-        winner, values = decide_first_player()
-        self.assertEqual(winner, "Jugador 1")
-        self.assertEqual(values, [6, 3])
+    def roll_dice(self): return (1, 6)
+    def any_move_available(self, *_): return True
+    def try_move(self, *_): return False
+    def try_combined_move(self, src, dice_list): return dice_list == [1, 6]
+    def switch_turn(self):
+        self.current_player = BLACK
+        self._game_over = True
+    def is_game_over(self): return self._game_over
+    def winner(self): return WHITE
 
-    @patch("backgammon.core.dice.random.randint", side_effect=[2, 5])
-    def test_player2_wins(self, mock_randint):
-        winner, values = decide_first_player()
-        self.assertEqual(winner, "Jugador 2")
-        self.assertEqual(values, [2, 5])
 
-    @patch("backgammon.core.dice.random.randint", side_effect=[4, 4])
-    def test_tie(self, mock_randint):
-        winner, values = decide_first_player()
-        self.assertEqual(winner, "Empate")
-        self.assertEqual(values, [4, 4])
+class TestCLI(unittest.TestCase):
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_print_board_basic_output(self, mock_stdout):
+        """Cubre print_board directamente."""
+        cli = CLI()
+        cli.game = FakeGame()
+        cli.print_board()
+        out = mock_stdout.getvalue()
+        self.assertIn("ESTADO DEL TABLERO", out)
+        self.assertIn("Turno actual:", out)
+        self.assertIn("24:", out)  # asegura que recorrió el for
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_cli_combined_move_and_victory(self, mock_stdout):
+        """Cubre flujo normal con movimiento combinado y victoria."""
+        cli = CLI()
+        cli.game = FakeGame()
+        cli.player_names = {WHITE: "Blanco", BLACK: "Negro"}
+
+        inputs = iter(["", "13 1+6", "fin"])
+        with patch("builtins.input", lambda *a: next(inputs)):
+            cli.start()
+
+        out = mock_stdout.getvalue()
+        self.assertIn("Movimiento combinado con dados [1, 6].", out)
+        self.assertIn("¡Ganó Blanco! ", out)
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_cli_invalid_and_unavailable_die(self, mock_stdout):
+        """Cubre entrada inválida y dado no disponible."""
+        cli = CLI()
+        cli.game = FakeGame()
+        cli.player_names = {WHITE: "Blanco", BLACK: "Negro"}
+
+        inputs = iter(["", "invalido", "13 9", "fin"])
+        with patch("builtins.input", lambda *a: next(inputs)):
+            cli.start()
+
+        out = mock_stdout.getvalue()
+        self.assertIn("Formato inválido", out)
+        self.assertIn("⚠️ Ese dado no está disponible.", out)
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_cli_handles_undefined_winner(self, mock_stdout):
+        """Cubre caso donde el ganador no está en player_names."""
+        cli = CLI()
+        cli.game = FakeGame()
+        cli.game.winner = lambda: 999  # ganador inexistente
+        cli.player_names = {WHITE: "Blanco", BLACK: "Negro"}
+
+        inputs = iter(["", "fin"])
+        with patch("builtins.input", lambda *a: next(inputs)):
+            cli.start()
+
+        out = mock_stdout.getvalue()
+        self.assertIn("Juego terminado sin ganador definido.", out)
+
+
+if __name__ == "__main__":
+    unittest.main()

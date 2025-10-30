@@ -1,3 +1,0 @@
-class pygame_ui():
-    ...
-    

@@ -1,46 +1,36 @@
+# backgammon/core/dice.py
 import random
 
+
 class Dice:
-    """
-    Representa un par de dados utilizados en el juego de Backgammon.
-    Permite realizar tiradas individuales o dobles y consultar los valores obtenidos.
-    También identifica si se ha sacado una tirada doble.
-    """
+    """Lógica de tiradas de los dados del Backgammon."""
 
-    def __init__(self):
-        """Inicializa una nueva instancia de los dados."""
-        self.values = []  # Lista con los valores de la última tirada
+    def __init__(self, rng=None):
+        self.rng = rng or random.Random()
+        self.values = []  # ejemplo: [3, 5] o [6, 6, 6, 6]
 
-    # =====================
-    # MÉTODOS PRINCIPALES
-    # =====================
-    def roll_single(self) -> int:
-        """Realiza una tirada de un solo dado (1 al 6)."""
-        value = random.randint(1, 6)
-        self.values = [value]
-        return value
-
-    def roll(self) -> list:
-        """Realiza una tirada de ambos dados."""
-        self.values = [random.randint(1, 6), random.randint(1, 6)]
+    def roll(self):
+        """Tira los dados y devuelve una lista de valores disponibles."""
+        d1 = self.rng.randint(1, 6)
+        d2 = self.rng.randint(1, 6)
+        if d1 == d2:
+            self.values = [d1, d1, d1, d1]
+        else:
+            self.values = [d1, d2]
         return self.values
 
-    def get_values(self) -> list:
-        """Devuelve los valores obtenidos en la última tirada."""
-        return self.values.copy()
+    def consume(self, value):
+        """Elimina un valor del conjunto de movimientos disponibles."""
+        if value in self.values:
+            self.values.remove(value)
 
-    def is_double(self) -> bool:
-        """Verifica si la última tirada fue doble (ambos dados iguales)."""
-        return len(self.values) == 2 and self.values[0] == self.values[1]
+    def reset(self):
+        """Vacía los dados (por ejemplo, al final del turno)."""
+        self.values = []
 
-    # =====================
-    # REPRESENTACIÓN
-    # =====================
-    def __str__(self) -> str:
-        """Representación en string del estado actual de los dados."""
-        if not self.values:
-            return "Dados sin tirar."
-        elif len(self.values) == 1:
-            return f"Dado: {self.values[0]}"
-        else:
-            return f"Dados: {self.values[0]} y {self.values[1]}"
+    def is_empty(self):
+        """Devuelve True si ya no quedan movimientos."""
+        return len(self.values) == 0
+
+    def __repr__(self):
+        return f"Dice({self.values})"

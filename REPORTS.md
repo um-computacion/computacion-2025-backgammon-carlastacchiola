@@ -2,19 +2,32 @@
 
 ## Coverage Report
 ```text
-Name                 Stmts   Miss  Cover   Missing
---------------------------------------------------
-cli/__init__.py          0      0   100%
-core/__init__.py         0      0   100%
-pygame/__init__.py       0      0   100%
---------------------------------------------------
-TOTAL                    0      0   100%
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+cli/__init__.py               0      0   100%
+cli/cli.py                   69      9    87%   33, 35, 77, 89-93, 112-113
+core/__init__.py              0      0   100%
+core/backgammon_game.py     165     17    90%   92, 105, 109, 121, 125, 127, 131-132, 148, 151, 164-166, 172, 187-188, 201
+core/board.py               136     17    88%   109-111, 116, 122-130, 173, 185, 195, 202
+core/checker.py              27      0   100%
+core/dice.py                 21      0   100%
+core/player.py               26      0   100%
+pygame/__init__.py            0      0   100%
+tests/__init__.py             0      0   100%
+tests/test_board.py         243      1    99%   366
+tests/test_checker.py        67      1    99%   104
+tests/test_cli.py            86      1    99%   114
+tests/test_dice.py           87      1    99%   138
+tests/test_game.py          277      1    99%   384
+tests/test_player.py         72      1    99%   111
+-------------------------------------------------------
+TOTAL                      1276     49    96%
 
 ```
 
 ## Pylint Report
 ```text
-************* Module test_cli
+************* Module computacion-2025-backgammon-carlastacchiola.tests.test_cli
 tests/test_cli.py:109:44: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_cli.py:110:19: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_cli.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -36,7 +49,7 @@ tests/test_cli.py:28:28: C0321: More than one statement on a single line (multip
 tests/test_cli.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_cli.py:29:22: C0321: More than one statement on a single line (multiple-statements)
 tests/test_cli.py:32:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module test_checker
+************* Module computacion-2025-backgammon-carlastacchiola.tests.test_checker
 tests/test_checker.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 tests/test_checker.py:2:0: E0401: Unable to import 'core.checker' (import-error)
 tests/test_checker.py:5:0: C0115: Missing class docstring (missing-class-docstring)
@@ -46,7 +59,7 @@ tests/test_checker.py:42:4: C0116: Missing function or method docstring (missing
 tests/test_checker.py:57:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_checker.py:72:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_checker.py:90:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module test_player
+************* Module computacion-2025-backgammon-carlastacchiola.tests.test_player
 tests/test_player.py:63:0: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_player.py:86:0: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_player.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -55,7 +68,7 @@ tests/test_player.py:4:0: E0401: Unable to import 'core.checker' (import-error)
 tests/test_player.py:7:0: C0115: Missing class docstring (missing-class-docstring)
 tests/test_player.py:52:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_player.py:102:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module test_game
+************* Module computacion-2025-backgammon-carlastacchiola.tests.test_game
 tests/test_game.py:168:40: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_game.py:186:0: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_game.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -91,7 +104,7 @@ tests/test_game.py:308:8: W0212: Access to a protected member _point_is_blocked 
 tests/test_game.py:339:56: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
 tests/test_game.py:351:8: W0212: Access to a protected member _point_is_blocked of a client class (protected-access)
 tests/test_game.py:20:0: R0904: Too many public methods (37/20) (too-many-public-methods)
-************* Module test_dice
+************* Module computacion-2025-backgammon-carlastacchiola.tests.test_dice
 tests/test_dice.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 tests/test_dice.py:3:0: E0401: Unable to import 'core.dice' (import-error)
 tests/test_dice.py:12:4: C0116: Missing function or method docstring (missing-function-docstring)
@@ -107,7 +120,7 @@ tests/test_dice.py:67:4: C0116: Missing function or method docstring (missing-fu
 tests/test_dice.py:84:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_dice.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_dice.py:109:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module test_board
+************* Module computacion-2025-backgammon-carlastacchiola.tests.test_board
 tests/test_board.py:274:36: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_board.py:301:36: C0303: Trailing whitespace (trailing-whitespace)
 tests/test_board.py:346:0: C0303: Trailing whitespace (trailing-whitespace)
@@ -247,8 +260,8 @@ pygame/pygame_ui.py:181:4: R0912: Too many branches (51/12) (too-many-branches)
 pygame/pygame_ui.py:181:4: R0915: Too many statements (115/50) (too-many-statements)
 pygame/pygame_ui.py:183:8: R1702: Too many nested blocks (9/5) (too-many-nested-blocks)
 pygame/pygame_ui.py:1:0: R0801: Similar lines in 2 files
-==test_dice:[5:17]
-==test_game:[7:19]
+==computacion-2025-backgammon-carlastacchiola.tests.test_dice:[5:17]
+==computacion-2025-backgammon-carlastacchiola.tests.test_game:[7:19]
 class FakeRandom:
     """Clase auxiliar para controlar los valores de los dados en los tests."""
     def __init__(self, seq):

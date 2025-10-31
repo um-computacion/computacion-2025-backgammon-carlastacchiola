@@ -89,7 +89,7 @@ class Board:
 
     def can_bear_off(self, player):
         """True si el jugador tiene todas sus fichas dentro del cuadrante de casa."""
-        home = range(18, 24) if player == WHITE else range(0, 6)
+        home = range(0, 6) if player == WHITE else range(18, 24)
         for idx, (owner, cnt) in enumerate(self.points):
             if owner == player and cnt > 0 and idx not in home:
                 return False

@@ -40,7 +40,7 @@ jobs:
 
       - name: Run Pylint and generate report
         run: |
-          pylint --rcfile=.pylintrc .tests .core .cli .pygame > pylint_report.txt || true
+          pylint --rcfile=.pylintrc ./tests ./core ./cli ./pygame > pylint_report.txt || true
 
       - name: Generate reports file
         run: |

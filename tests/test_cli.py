@@ -2,8 +2,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from io import StringIO
-from backgammon.cli.cli import CLI
-from backgammon.core.board import WHITE, BLACK
+from cli.cli import CLI
+from core.board import WHITE, BLACK
 
 
 class FakeGame:
@@ -69,7 +69,7 @@ class TestCLI(unittest.TestCase):
 
         out = mock_stdout.getvalue()
         self.assertIn("Formato inválido", out)
-        self.assertIn("⚠️ Ese dado no está disponible.", out)
+        self.assertIn(" Ese dado no está disponible.", out)
 
     @patch("sys.stdout", new_callable=StringIO)
     def test_cli_handles_undefined_winner(self, mock_stdout):
@@ -85,6 +85,29 @@ class TestCLI(unittest.TestCase):
 
         out = mock_stdout.getvalue()
         self.assertIn("Juego terminado sin ganador definido.", out)
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_cli_start_prints_welcome_and_exits_immediately(self, mock_stdout):
+        """Cubre el inicio de CLI.start() (mensajes de bienvenida)."""
+        cli = CLI()
+        cli.game.is_game_over = lambda: True  # hace que termine enseguida
+        cli.start()
+        out = mock_stdout.getvalue()
+        self.assertIn(" Bienvenido al Backgammon", out)
+        self.assertIn("Jugadores:", out)
+
+    def test_cli_can_be_instantiated(self):
+        """Verifica que CLI puede crearse correctamente."""
+        cli = CLI()
+        self.assertIsNotNone(cli.game)
+        self.assertIn(WHITE, cli.player_names)
+        self.assertIn(BLACK, cli.player_names)
+
+    def test_cli_start_ends_immediately_when_game_over(self):
+        """Cubre el inicio de CLI.start() sin entrar al bucle."""
+        cli = CLI()
+        cli.game.is_game_over = lambda: True  
+        cli.start()  
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
-# backgammon/cli/cli.py
+#cli/cli.py
 
-from backgammon.core.backgammon_game import BackgammonGame, WHITE, BLACK
+from core.backgammon_game import BackgammonGame, WHITE, BLACK
 
 
 class CLI:
@@ -43,7 +43,7 @@ class CLI:
     # ----------------------------------------------------------
     def start(self):
         """Inicia una partida interactiva por consola."""
-        print("🎲 Bienvenido al Backgammon (modo texto)")
+        print(" Bienvenido al Backgammon (modo texto)")
         print("Jugadores:")
         print("  Blanco: mueve de 24 → 1")
         print("  Negro : mueve de 1 → 24")
@@ -72,9 +72,9 @@ class CLI:
                         dice_list = [int(x) for x in die_str.split("+")]
                         moved = self.game.try_combined_move(src, dice_list)
                         if moved:
-                            print(f"✅ Movimiento combinado con dados {dice_list}.")
+                            print(f" Movimiento combinado con dados {dice_list}.")
                         else:
-                            print("❌ Movimiento combinado no permitido.")
+                            print(" Movimiento combinado no permitido.")
                         continue
                     else:
                         die = int(die_str)
@@ -83,14 +83,14 @@ class CLI:
                     continue
 
                 if die not in self.game.dice.values:
-                    print("⚠️ Ese dado no está disponible.")
+                    print(" Ese dado no está disponible.")
                     continue
 
                 moved = self.game.try_move(src, die)
                 if moved:
-                    print("✅ Movimiento válido.")
+                    print(" Movimiento válido.")
                 else:
-                    print("❌ Movimiento no permitido.")
+                    print(" Movimiento no permitido.")
 
             print("Fin del turno.\n")
             self.game.switch_turn()
@@ -105,7 +105,7 @@ class CLI:
 
         # Fin del juego
         ganador = self.player_names[self.game.winner()]
-        print(f"🎉 ¡Ganó {ganador}! 🎉")
+        print(f" ¡Ganó {ganador}! ")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # backgammon/tests/test_dice.py
 import unittest
-from backgammon.core.dice import Dice
+from core.dice import Dice
 
 
 class FakeRandom:

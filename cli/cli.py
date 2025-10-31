@@ -1,4 +1,4 @@
-# backgammon/cli/cli.py
+#cli/cli.py
 
 from core.backgammon_game import BackgammonGame, WHITE, BLACK
 

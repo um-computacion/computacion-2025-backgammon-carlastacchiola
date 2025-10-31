@@ -1,7 +1,7 @@
 # backgammon/pygame/pygame_ui.py
 import sys
 import pygame
-from backgammon.core.backgammon_game import BackgammonGame, WHITE, BLACK
+from core.backgammon_game import BackgammonGame, WHITE, BLACK
 
 # --- CONFIG VISUAL ---
 BOARD_W, BOARD_H = 1100, 700
@@ -78,7 +78,7 @@ class PygameUI:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Backgammon - Carla Edition 🎲")
+        pygame.display.set_caption("Backgammon - Carla Edition ")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 28)
 

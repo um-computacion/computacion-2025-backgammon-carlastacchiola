@@ -1,4 +1,4 @@
-# backgammon/core/checker.py
+# core/checker.py
 
 
 from core.board import WHITE, BLACK

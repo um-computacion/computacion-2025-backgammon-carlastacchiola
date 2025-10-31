@@ -1,4 +1,4 @@
-# backgammon/core/backgammon_game.py
+# core/backgammon_game.py
 import random
 from .board import Board, WHITE, BLACK
 from .dice import Dice
@@ -91,7 +91,7 @@ class BackgammonGame:
         if len(dice_list) < 2:
             return None
 
-        # ✅ Solo tomar los dos primeros valores únicos
+        #  Solo tomar los dos primeros valores únicos
         dice_unique = sorted(set(dice_list))
         if len(dice_unique) < 2:
             return None
@@ -194,12 +194,7 @@ class BackgammonGame:
                 return True
         return False
 
-    #def consume_move(self, die):
-        #for idx, v in enumerate(self.remaining_moves):
-            #if v == die:
-                #del self.remaining_moves[idx]
-                #return True
-        #return False
+    
 
     def try_move(self, from_idx, die):
         if die not in self.remaining_moves:

@@ -14,6 +14,122 @@ TOTAL                    0      0   100%
 
 ## Pylint Report
 ```text
+************* Module test_cli
+tests/test_cli.py:109:44: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_cli.py:110:19: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_cli.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tests/test_cli.py:5:0: E0401: Unable to import 'cli.cli' (import-error)
+tests/test_cli.py:6:0: E0401: Unable to import 'core.board' (import-error)
+tests/test_cli.py:14:8: C0104: Disallowed name "bar" (disallowed-name)
+tests/test_cli.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:21:25: C0321: More than one statement on a single line (multiple-statements)
+tests/test_cli.py:22:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:22:38: C0321: More than one statement on a single line (multiple-statements)
+tests/test_cli.py:23:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:23:28: C0321: More than one statement on a single line (multiple-statements)
+tests/test_cli.py:24:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:24:49: C0321: More than one statement on a single line (multiple-statements)
+tests/test_cli.py:24:32: W0613: Unused argument 'src' (unused-argument)
+tests/test_cli.py:25:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:28:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:28:28: C0321: More than one statement on a single line (multiple-statements)
+tests/test_cli.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_cli.py:29:22: C0321: More than one statement on a single line (multiple-statements)
+tests/test_cli.py:32:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module test_checker
+tests/test_checker.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tests/test_checker.py:2:0: E0401: Unable to import 'core.checker' (import-error)
+tests/test_checker.py:5:0: C0115: Missing class docstring (missing-class-docstring)
+tests/test_checker.py:9:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_checker.py:28:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_checker.py:42:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_checker.py:57:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_checker.py:72:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_checker.py:90:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_player
+tests/test_player.py:63:0: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_player.py:86:0: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_player.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tests/test_player.py:3:0: E0401: Unable to import 'core.player' (import-error)
+tests/test_player.py:4:0: E0401: Unable to import 'core.checker' (import-error)
+tests/test_player.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+tests/test_player.py:52:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_player.py:102:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_game
+tests/test_game.py:168:40: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_game.py:186:0: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_game.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tests/test_game.py:2:0: E0401: Unable to import 'core.backgammon_game' (import-error)
+tests/test_game.py:3:0: E0401: Unable to import 'core.board' (import-error)
+tests/test_game.py:4:0: E0401: Unable to import 'core.dice' (import-error)
+tests/test_game.py:5:0: E0401: Unable to import 'core.player' (import-error)
+tests/test_game.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:14:22: W0613: Unused argument 'a' (unused-argument)
+tests/test_game.py:14:25: W0613: Unused argument 'b' (unused-argument)
+tests/test_game.py:8:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests/test_game.py:20:0: C0115: Missing class docstring (missing-class-docstring)
+tests/test_game.py:25:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:35:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:49:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:58:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:66:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:75:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:85:14: W0212: Access to a protected member _dest_index of a client class (protected-access)
+tests/test_game.py:89:24: W0212: Access to a protected member _point_is_blocked of a client class (protected-access)
+tests/test_game.py:90:25: W0212: Access to a protected member _point_is_blocked of a client class (protected-access)
+tests/test_game.py:95:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:100:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:119:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:143:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:147:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:154:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:193:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:219:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:226:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_game.py:308:8: W0212: Access to a protected member _point_is_blocked of a client class (protected-access)
+tests/test_game.py:339:56: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+tests/test_game.py:351:8: W0212: Access to a protected member _point_is_blocked of a client class (protected-access)
+tests/test_game.py:20:0: R0904: Too many public methods (37/20) (too-many-public-methods)
+************* Module test_dice
+tests/test_dice.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tests/test_dice.py:3:0: E0401: Unable to import 'core.dice' (import-error)
+tests/test_dice.py:12:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:12:22: W0613: Unused argument 'a' (unused-argument)
+tests/test_dice.py:12:25: W0613: Unused argument 'b' (unused-argument)
+tests/test_dice.py:6:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests/test_dice.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+tests/test_dice.py:23:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:35:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:55:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:67:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:84:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_dice.py:109:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module test_board
+tests/test_board.py:274:36: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_board.py:301:36: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_board.py:346:0: C0303: Trailing whitespace (trailing-whitespace)
+tests/test_board.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tests/test_board.py:2:0: E0401: Unable to import 'core.board' (import-error)
+tests/test_board.py:5:0: C0115: Missing class docstring (missing-class-docstring)
+tests/test_board.py:12:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:30:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:44:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:56:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:60:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:70:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:80:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:106:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:121:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:134:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:145:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:153:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:166:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:185:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_board.py:5:0: R0904: Too many public methods (29/20) (too-many-public-methods)
 ************* Module computacion-2025-backgammon-carlastacchiola.core.checker
 core/checker.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 core/checker.py:4:0: E0401: Unable to import 'core.board' (import-error)
@@ -130,9 +246,24 @@ pygame/pygame_ui.py:351:8: E1101: Module 'pygame' has no 'quit' member (no-membe
 pygame/pygame_ui.py:181:4: R0912: Too many branches (51/12) (too-many-branches)
 pygame/pygame_ui.py:181:4: R0915: Too many statements (115/50) (too-many-statements)
 pygame/pygame_ui.py:183:8: R1702: Too many nested blocks (9/5) (too-many-nested-blocks)
+pygame/pygame_ui.py:1:0: R0801: Similar lines in 2 files
+==test_dice:[5:17]
+==test_game:[7:19]
+class FakeRandom:
+    """Clase auxiliar para controlar los valores de los dados en los tests."""
+    def __init__(self, seq):
+        self.seq = seq
+        self.index = 0
+
+    def randint(self, a, b):
+        val = self.seq[self.index]
+        self.index = (self.index + 1) % len(self.seq)
+        return val
+
+ (duplicate-code)
 
 -----------------------------------
-Your code has been rated at 7.80/10
+Your code has been rated at 7.99/10
 
 
 ```

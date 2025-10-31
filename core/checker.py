@@ -1,7 +1,7 @@
 # backgammon/core/checker.py
 
 
-from backgammon.core.board import WHITE, BLACK
+from core.board import WHITE, BLACK
 
 WHITE = 1
 BLACK = -1

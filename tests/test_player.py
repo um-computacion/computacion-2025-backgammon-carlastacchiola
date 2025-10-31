@@ -1,7 +1,7 @@
 # backgammon/tests/test_player.py
 import unittest
-from backgammon.core.player import Player, WHITE, BLACK
-from backgammon.core.checker import Checker
+from core.player import Player, WHITE, BLACK
+from core.checker import Checker
 
 
 class TestPlayer(unittest.TestCase):

@@ -1,8 +1,8 @@
 import unittest
-from backgammon.core.backgammon_game import BackgammonGame, WHITE, BLACK
-from backgammon.core.board import Board
-from backgammon.core.dice import Dice
-from backgammon.core.player import Player
+from core.backgammon_game import BackgammonGame, WHITE, BLACK
+from core.board import Board
+from core.dice import Dice
+from core.player import Player
 
 
 class FakeRandom:

@@ -1,5 +1,5 @@
 import unittest
-from backgammon.core.checker import Checker, WHITE, BLACK
+from core.checker import Checker, WHITE, BLACK
 
 
 class TestChecker(unittest.TestCase):

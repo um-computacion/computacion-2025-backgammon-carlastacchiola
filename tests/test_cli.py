@@ -2,8 +2,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from io import StringIO
-from backgammon.cli.cli import CLI
-from backgammon.core.board import WHITE, BLACK
+from cli.cli import CLI
+from core.board import WHITE, BLACK
 
 
 class FakeGame:

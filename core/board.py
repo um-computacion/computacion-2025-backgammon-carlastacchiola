@@ -14,9 +14,9 @@ class Board:
     """
 
     def __init__(self):
-        self.points = [(0, 0)] * 24
-        self.bar = {WHITE: 0, BLACK: 0}
-        self.borne_off = {WHITE: 0, BLACK: 0}
+        self.__points__ = [(0, 0)] * 24
+        self.__bar__ = {WHITE: 0, BLACK: 0}
+        self.__borne_off__ = {WHITE: 0, BLACK: 0}
         self.setup_initial()
 
     # ----------------------------------------------------------
@@ -24,10 +24,10 @@ class Board:
     # ----------------------------------------------------------
     def setup_initial(self):
         """Posición estándar del Backgammon."""
-        self.points = [(0, 0)] * 24
+        self.__points__ = [(0, 0)] * 24
 
         def set_point(num, owner, count):
-            self.points[num - 1] = (owner, count)
+            self.__points__[num - 1] = (owner, count)
 
         # Fichas blancas
         set_point(24, WHITE, 2)
@@ -41,8 +41,8 @@ class Board:
         set_point(17, BLACK, 3)
         set_point(19, BLACK, 5)
 
-        self.bar = {WHITE: 0, BLACK: 0}
-        self.borne_off = {WHITE: 0, BLACK: 0}
+        self.__bar__ = {WHITE: 0, BLACK: 0}
+        self.__borne_off__ = {WHITE: 0, BLACK: 0}
 
     # ----------------------------------------------------------
     # Utilidades básicas
@@ -66,7 +66,7 @@ class Board:
         """True si el punto está bloqueado por el oponente."""
         if idx < 0 or idx > 23:
             return False
-        owner, count = self.points[idx]
+        owner, count = self.__points__[idx]
         return owner == self.opponent(player) and count >= 2
 
     def enter_from_bar_targets(self, player, die):
@@ -78,19 +78,19 @@ class Board:
     # ----------------------------------------------------------
     def bearing_off_allowed(self, player):
         """True si todas las fichas del jugador están dentro de su casa."""
-        if self.bar[player] > 0:
+        if self.__bar__[player] > 0:
             return False
         total_en_casa = 0
         for i in self.home_range(player):
-            owner, count = self.points[i]
+            owner, count = self.__points__[i]
             if owner == player:
                 total_en_casa += count
-        return (total_en_casa + self.borne_off[player]) == 15
+        return (total_en_casa + self.__borne_off__[player]) == 15
 
     def can_bear_off(self, player):
         """True si el jugador tiene todas sus fichas dentro del cuadrante de casa."""
         home = range(0, 6) if player == WHITE else range(18, 24)
-        for idx, (owner, cnt) in enumerate(self.points):
+        for idx, (owner, cnt) in enumerate(self.__points__):
             if owner == player and cnt > 0 and idx not in home:
                 return False
         return True
@@ -102,29 +102,29 @@ class Board:
 
         if player == WHITE:
             target_idx = die - 1
-            owner, cnt = self.points[target_idx] if 0 <= target_idx <= 5 else (0, 0)
+            owner, cnt = self.__points__[target_idx] if 0 <= target_idx <= 5 else (0, 0)
             if owner == WHITE and cnt > 0:
                 return True
             for i in range(die, 6):
-                o, c = self.points[i]
+                o, c = self.__points__[i]
                 if o == WHITE and c > 0:
                     return False
             for i in range(0, 6):
-                o, c = self.points[i]
+                o, c = self.__points__[i]
                 if o == WHITE and c > 0:
                     return True
             return False
         else:
             target_idx = 24 - die
-            owner, cnt = self.points[target_idx] if 18 <= target_idx <= 23 else (0, 0)
+            owner, cnt = self.__points__[target_idx] if 18 <= target_idx <= 23 else (0, 0)
             if owner == BLACK and cnt > 0:
                 return True
             for i in range(18, 24 - die):
-                o, c = self.points[i]
+                o, c = self.__points__[i]
                 if o == BLACK and c > 0:
                     return False
             for i in range(18, 24):
-                o, c = self.points[i]
+                o, c = self.__points__[i]
                 if o == BLACK and c > 0:
                     return True
             return False
@@ -135,16 +135,16 @@ class Board:
 
     def bear_off_piece(self, player, from_idx, search_range):
         """Elimina una ficha del tablero y la suma al borne_off."""
-        owner, cnt = self.points[from_idx]
+        owner, cnt = self.__points__[from_idx]
         if owner == player and cnt > 0:
-            self.points[from_idx] = (0, 0) if cnt == 1 else (player, cnt - 1)
-            self.borne_off[player] += 1
+            self.__points__[from_idx] = (0, 0) if cnt == 1 else (player, cnt - 1)
+            self.__borne_off__[player] += 1
             return
         for i in search_range:
-            o, c = self.points[i]
+            o, c = self.__points__[i]
             if o == player and c > 0:
-                self.points[i] = (0, 0) if c == 1 else (player, c - 1)
-                self.borne_off[player] += 1
+                self.__points__[i] = (0, 0) if c == 1 else (player, c - 1)
+                self.__borne_off__[player] += 1
                 break
 
     # ----------------------------------------------------------
@@ -152,10 +152,10 @@ class Board:
     # ----------------------------------------------------------
     def apply_hit_if_any(self, player, idx):
         """Golpea una ficha del oponente si hay una sola."""
-        owner, count = self.points[idx]
+        owner, count = self.__points__[idx]
         if owner == self.opponent(player) and count == 1:
-            self.bar[self.opponent(player)] += 1
-            self.points[idx] = (0, 0)
+            self.__bar__[self.opponent(player)] += 1
+            self.__points__[idx] = (0, 0)
 
     def move_checker(self, player, from_idx, die):
         """Movimiento atómico: desde un índice o desde la barra."""
@@ -165,10 +165,10 @@ class Board:
             if self.point_is_blocked(player, dest):
                 return False
             self.apply_hit_if_any(player, dest)
-            owner, cnt = self.points[dest]
+            owner, cnt = self.__points__[dest]
             if owner in (0, player):
-                self.points[dest] = (player, cnt + 1)
-                self.bar[player] -= 1
+                self.__points__[dest] = (player, cnt + 1)
+                self.__bar__[player] -= 1
                 return True
             return False
 
@@ -190,19 +190,19 @@ class Board:
             return False
 
         # Movimiento válido
-        owner, cnt = self.points[from_idx]
+        owner, cnt = self.__points__[from_idx]
         if owner != player or cnt == 0:
             return False
 
         self.apply_hit_if_any(player, dest)
-        dest_owner, dest_cnt = self.points[dest]
+        dest_owner, dest_cnt = self.__points__[dest]
         if dest_owner in (0, player):
-            self.points[dest] = (player, dest_cnt + 1)
+            self.__points__[dest] = (player, dest_cnt + 1)
         else:
-            self.points[dest] = (player, 1)
+            self.__points__[dest] = (player, 1)
 
         remaining = cnt - 1
-        self.points[from_idx] = (0, 0) if remaining == 0 else (player, remaining)
+        self.__points__[from_idx] = (0, 0) if remaining == 0 else (player, remaining)
         return True
 
     # ----------------------------------------------------------

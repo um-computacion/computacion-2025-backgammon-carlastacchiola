@@ -77,27 +77,27 @@ def clicked_on_bar(x, y):
 class PygameUI:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.__screen__ = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Backgammon - Carla Edition ")
-        self.clock = pygame.time.Clock()
-        self.font = pygame.font.SysFont(None, 28)
+        self.__clock__ = pygame.time.Clock()
+        self.__font__ = pygame.font.SysFont(None, 28)
 
-        self.game = BackgammonGame()
-        self.await_roll = True
-        self.selected_from = None
-        self.message = "Presiona ESPACIO para tirar los dados"
+        self.__game__ = BackgammonGame()
+        self.__await_roll__ = True
+        self.__selected_from__ = None
+        self.__message__ = "Presiona ESPACIO para tirar los dados"
 
         # zonas de borne off (a la derecha)
-        self.off_white_rect = pygame.Rect(
+        self.__off_white_rect__ = pygame.Rect(
             BOARD_W + 5, PADDING, EXTRA_W - 10, (HEIGHT - 2 * PADDING) // 2 - 10
         )
-        self.off_black_rect = pygame.Rect(
+        self.__off_black_rect__ = pygame.Rect(
             BOARD_W + 5, HEIGHT // 2 + 10, EXTRA_W - 10, (HEIGHT - 2 * PADDING) // 2 - 10
         )
 
     # ----------------------------------------------------------
     def draw_board(self, legal_from, highlight_points):
-        s = self.screen
+        s = self.__screen__
         s.fill(GREEN_BG)
 
         # tablero base
@@ -140,7 +140,7 @@ class PygameUI:
 
         # fichas en puntos
         for i in range(24):
-            owner, cnt = self.game.points[i]
+            owner, cnt = self.__game__.points[i]
             if cnt > 0:
                 col, side = idx_to_col_side(i)
                 x = point_x(col) + POINT_W // 2
@@ -151,28 +151,28 @@ class PygameUI:
 
         # fichas en barra
         bar_x = PADDING + 6 * POINT_W + BAR_W // 2
-        for k in range(self.game.bar[WHITE]):
+        for k in range(self.__game__.bar[WHITE]):
             y = HEIGHT // 2 - 50 - k * 28
             draw_disc(WHITE_CHK, bar_x, y)
-        for k in range(self.game.bar[BLACK]):
+        for k in range(self.__game__.bar[BLACK]):
             y = HEIGHT // 2 + 50 + k * 28
             draw_disc(BLACK_CHK, bar_x, y)
 
         # borne off áreas
-        pygame.draw.rect(s, (90, 45, 20), self.off_white_rect, border_radius=10)
-        pygame.draw.rect(s, (90, 45, 20), self.off_black_rect, border_radius=10)
+        pygame.draw.rect(s, (90, 45, 20), self.__off_white_rect__, border_radius=10)
+        pygame.draw.rect(s, (90, 45, 20), self.__off_black_rect__, border_radius=10)
 
-        for k in range(self.game.borne_off[WHITE]):
-            draw_disc(WHITE_CHK, self.off_white_rect.centerx, self.off_white_rect.top + 25 + k * 22)
-        for k in range(self.game.borne_off[BLACK]):
-            draw_disc(BLACK_CHK, self.off_black_rect.centerx, self.off_black_rect.top + 25 + k * 22)
+        for k in range(self.__game__.borne_off[WHITE]):
+            draw_disc(WHITE_CHK, self.__off_white_rect__.centerx, self.__off_white_rect__.top + 25 + k * 22)
+        for k in range(self.__game__.borne_off[BLACK]):
+            draw_disc(BLACK_CHK, self.__off_black_rect__.centerx, self.__off_black_rect__.top + 25 + k * 22)
 
-        dice_txt = self.font.render(f"Dados: {self.game.dice.values}", True, TEXT_COLOR)
+        dice_txt = self.__font__.render(f"Dados: {self.__game__.__dice__.values}", True, TEXT_COLOR)
         s.blit(dice_txt, (20, 10))
-        msg_txt = self.font.render(self.message, True, TEXT_COLOR)
+        msg_txt = self.__font__.render(self.__message__, True, TEXT_COLOR)
         s.blit(msg_txt, (WIDTH // 2 - msg_txt.get_width() // 2, 10))
-        cnt_txt = self.font.render(
-            f"Fichas fuera 🡒 Blanco: {self.game.borne_off[WHITE]} | Negro: {self.game.borne_off[BLACK]}",
+        cnt_txt = self.__font__.render(
+            f"Fichas fuera 🡒 Blanco: {self.__game__.borne_off[WHITE]} | Negro: {self.__game__.borne_off[BLACK]}",
             True, TEXT_COLOR
         )
         s.blit(cnt_txt, (WIDTH // 2 - cnt_txt.get_width() // 2, HEIGHT - 30))
@@ -184,31 +184,31 @@ class PygameUI:
             legal_sources = set()
             highlight_points = []
 
-            if not self.await_roll:
-                for d in sorted(set(self.game.dice.values)):
-                    legal_sources.update(self.game.legal_single_sources(self.game.current_player, d))
+            if not self.__await_roll__:
+                for d in sorted(set(self.__game__.__dice__.values)):
+                    legal_sources.update(self.__game__.legal_single_sources(self.__game__.__current_player__, d))
 
-                if self.selected_from is None and self.game.bar[self.game.current_player] > 0:
+                if self.__selected_from__ is None and self.__game__.bar[self.__game__.__current_player__] > 0:
                     # desde la barra: destinos de entrada
-                    for die in sorted(set(self.game.dice.values)):
-                        targets = self.game.board.enter_from_bar_targets(self.game.current_player, die)
+                    for die in sorted(set(self.__game__.__dice__.values)):
+                        targets = self.__game__.__board__.enter_from_bar_targets(self.__game__.__current_player__, die)
                         for t in targets:
-                            if not self.game._point_is_blocked(self.game.current_player, t):
+                            if not self.__game__._point_is_blocked(self.__game__.__current_player__, t):
                                 highlight_points.append(t)
 
-                elif self.selected_from is not None:
+                elif self.__selected_from__ is not None:
                     # normales: destinos por cada dado
-                    for die in sorted(set(self.game.dice.values)):
-                        dest = self.game._dest_index(self.game.current_player, self.selected_from, die)
-                        if 0 <= dest <= 23 and not self.game._point_is_blocked(self.game.current_player, dest):
+                    for die in sorted(set(self.__game__.__dice__.values)):
+                        dest = self.__game__._dest_index(self.__game__.__current_player__, self.__selected_from__, die)
+                        if 0 <= dest <= 23 and not self.__game__._point_is_blocked(self.__game__.__current_player__, dest):
                             highlight_points.append(dest)
 
                     # destino combinado (a + b)
-                    if len(self.game.dice.values) >= 2:
-                        combo_dest = self.game.combined_move_destination(
-                            self.game.current_player,
-                            self.selected_from,
-                            list(self.game.dice.values)[:2]
+                    if len(self.__game__.__dice__.values) >= 2:
+                        combo_dest = self.__game__.combined_move_destination(
+                            self.__game__.__current_player__,
+                            self.__selected_from__,
+                            list(self.__game__.__dice__.values)[:2]
                         )
                         if combo_dest is not None and 0 <= combo_dest <= 23:
                             highlight_points.append(combo_dest)
@@ -219,134 +219,134 @@ class PygameUI:
                     running = False
 
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    if self.await_roll:
-                        self.game.roll_dice()
-                        self.await_roll = False
-                        self.message = "Haz clic en una ficha válida"
+                    if self.__await_roll__:
+                        self.__game__.roll_dice()
+                        self.__await_roll__ = False
+                        self.__message__ = "Haz clic en una ficha válida"
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     x, y = event.pos
-                    if self.await_roll:
+                    if self.__await_roll__:
                         continue
 
                     # clic en barra
-                    if clicked_on_bar(x, y) and self.game.bar[self.game.current_player] > 0:
-                        self.selected_from = None
-                        self.message = "Seleccionada ficha desde la barra"
+                    if clicked_on_bar(x, y) and self.__game__.bar[self.__game__.__current_player__] > 0:
+                        self.__selected_from__ = None
+                        self.__message__ = "Seleccionada ficha desde la barra"
                         continue
 
-                    if self.game.current_player == WHITE and self.off_white_rect.collidepoint(x, y):
-                            if self.selected_from is not None and self.game.try_bear_off_click(self.selected_from):
-                                self.message = "Ficha borne off "
-                                self.selected_from = None
+                    if self.__game__.__current_player__ == WHITE and self.__off_white_rect__.collidepoint(x, y):
+                            if self.__selected_from__ is not None and self.__game__.try_bear_off_click(self.__selected_from__):
+                                self.__message__ = "Ficha borne off "
+                                self.__selected_from__ = None
                             else:
-                                self.message = "No puedes sacar esa ficha todavía"
+                                self.__message__ = "No puedes sacar esa ficha todavía"
                             continue
 
-                    if self.game.current_player == BLACK and self.off_black_rect.collidepoint(x, y):
-                            if self.selected_from is not None and self.game.try_bear_off_click(self.selected_from):
-                                self.message = "Ficha borne off "
-                                self.selected_from = None
+                    if self.__game__.__current_player__ == BLACK and self.__off_black_rect__.collidepoint(x, y):
+                            if self.__selected_from__ is not None and self.__game__.try_bear_off_click(self.__selected_from__):
+                                self.__message__ = "Ficha borne off "
+                                self.__selected_from__ = None
                             else:
-                                self.message = "No puedes sacar esa ficha todavía"
+                                self.__message__ = "No puedes sacar esa ficha todavía"
                             continue
 
                     idx = point_index_from_xy(x, y)
                     moved = False
 
-                    if self.selected_from is None and self.game.bar[self.game.current_player] > 0:
+                    if self.__selected_from__ is None and self.__game__.bar[self.__game__.__current_player__] > 0:
                         # movimiento desde barra
-                        for die in sorted(set(self.game.dice.values), reverse=True):
-                            targets = self.game.board.enter_from_bar_targets(self.game.current_player, die)
+                        for die in sorted(set(self.__game__.__dice__.values), reverse=True):
+                            targets = self.__game__.__board__.enter_from_bar_targets(self.__game__.__current_player__, die)
                             if targets and targets[0] == idx:
-                                if self.game.try_move(None, die):
+                                if self.__game__.try_move(None, die):
                                     moved = True
                                     break
                         if moved:
-                            self.message = "Ficha reingresada al tablero"
-                            self.selected_from = None
+                            self.__message__ = "Ficha reingresada al tablero"
+                            self.__selected_from__ = None
                         else:
-                            self.message = "No se puede mover desde la barra aquí"
+                            self.__message__ = "No se puede mover desde la barra aquí"
                         continue
 
-                    if self.selected_from is None:
+                    if self.__selected_from__ is None:
                         if idx in legal_sources:
-                            self.selected_from = idx
-                            self.message = f"Seleccionado punto {idx + 1}"
+                            self.__selected_from__ = idx
+                            self.__message__ = f"Seleccionado punto {idx + 1}"
                         else:
-                            self.message = "Haz clic en una ficha válida"
+                            self.__message__ = "Haz clic en una ficha válida"
                     else:
                         moved = False
 
                         # 1 primero: intentar movimiento combinado (a+b)
-                        if len(self.game.dice.values) >= 2:
-                            combo_dest = self.game.combined_move_destination(
-                                self.game.current_player,
-                                self.selected_from,
-                                list(self.game.dice.values)[:2]   # usamos los 2 dados del turno
+                        if len(self.__game__.__dice__.values) >= 2:
+                            combo_dest = self.__game__.combined_move_destination(
+                                self.__game__.current_player,
+                                self.__selected_from__,
+                                list(self.__game__.dice.values)[:2]   # usamos los 2 dados del turno
                             )
                             if combo_dest == idx:
-                                if self.game.try_combined_move(self.selected_from, list(self.game.dice.values)[:2]):
+                                if self.__game__.try_combined_move(self.__selected_from__, list(self.__game__.__dice__.values)[:2]):
                                     moved = True
 
                         # 2 si NO fue combinado, intentar movimientos simples
                         if not moved:
-                            for die in sorted(set(self.game.dice.values), reverse=True):
-                                dest = self.game._dest_index(self.game.current_player, self.selected_from, die)
-                                if dest == idx and self.game.try_move(self.selected_from, die):
+                            for die in sorted(set(self.__game__.__dice__.values), reverse=True):
+                                dest = self.__game__._dest_index(self.__game__.__current_player__, self.__selected_from__, die)
+                                if dest == idx and self.__game__.try_move(self.__selected_from__, die):
                                     moved = True
                                     break
 
                         # 3 si se movió: mensaje + chequeo de fin de turno
                         if moved:
-                            self.message = "Movimiento OK"
-                            self.selected_from = None
+                            self.__message__ = "Movimiento OK"
+                            self.__selected_from__ = None
                             # si ya no quedan movimientos o no hay jugadas, cambiar turno
-                            if self.game.dice.is_empty() or not self.game.any_move_available(
-                                self.game.current_player, self.game.dice.values
+                            if self.__game__.__dice__.is_empty() or not self.__game__.any_move_available(
+                                self.__game__.__current_player__, self.__game__.__dice__.values
                             ):
-                                self.game.switch_turn()
-                                self.await_roll = True
-                                self.message = "Presiona ESPACIO para tirar los dados"
+                                self.__game__.switch_turn()
+                                self.__await_roll__ = True
+                                self.__message__ = "Presiona ESPACIO para tirar los dados"
                         else:
                             # 4 no se movió: quizá hizo clic en OTRA ficha suya → cambiar selección
                             if idx is not None and idx in legal_sources:
-                                self.selected_from = idx
-                                self.message = f"Seleccionado punto {idx + 1}"
+                                self.__selected_from__ = idx
+                                self.__message__ = f"Seleccionado punto {idx + 1}"
                             else:
                                 moved = False
 
                                 # clic en rectángulo de borne off (sacar ficha seleccionada)
-                                if self.selected_from is not None:
-                                    if self.game.current_player == WHITE and self.off_white_rect.collidepoint(x, y):
-                                        moved = self.game.try_bear_off_click(self.selected_from)
-                                    elif self.game.current_player == BLACK and self.off_black_rect.collidepoint(x, y):
-                                        moved = self.game.try_bear_off_click(self.selected_from)
+                                if self.__selected_from__ is not None:
+                                    if self.__game__.__current_player__ == WHITE and self.__off_white_rect__.collidepoint(x, y):
+                                        moved = self.__game__.try_bear_off_click(self.__selected_from__)
+                                    elif self.__game__.__current_player__ == BLACK and self.__off_black_rect__.collidepoint(x, y):
+                                        moved = self.__game__.try_bear_off_click(self.__selected_from__)
 
                                     if moved:
-                                        self.message = "Ficha fuera del tablero"
-                                        self.selected_from = None
-                                        if self.game.dice.is_empty() or not self.game.any_move_available(
-                                            self.game.current_player, self.game.dice.values
+                                        self.__message__ = "Ficha fuera del tablero"
+                                        self._selected_from__ = None
+                                        if self.__game__.__dice__.is_empty() or not self.__game__.any_move_available(
+                                            self.__game__.__current_player__, self.__game__.__dice__.values
                                         ):
-                                            self.game.switch_turn()
-                                            self.await_roll = True
-                                            self.message = "Presiona ESPACIO para tirar los dados"
+                                            self.__game__.switch_turn()
+                                            self.__await_roll__ = True
+                                            self.__message__ = "Presiona ESPACIO para tirar los dados"
                                         continue
                                     else:
-                                        self.message = "No se puede sacar con estos dados"
-                                        self.selected_from = None
+                                        self.__message__ = "No se puede sacar con estos dados"
+                                        self.__selected_from__ = None
                                         continue
 
                                 # 🧱 si no fue borne-off, ni otro tipo de movimiento válido:
-                                self.selected_from = None
-                                self.message = "Movimiento no permitido"
+                                self.__selected_from__ = None
+                                self.__message__ = "Movimiento no permitido"
 
 
 
             self.draw_board([i for i in legal_sources if i is not None], highlight_points)
             pygame.display.flip()
-            self.clock.tick(60)
+            self.__clock__.tick(60)
 
         pygame.quit()
         sys.exit()

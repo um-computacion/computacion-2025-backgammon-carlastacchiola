@@ -10,13 +10,13 @@ class TestChecker(unittest.TestCase):
         c1 = Checker(WHITE)
         c2 = Checker(BLACK)
 
-        self.assertEqual(c1.color, WHITE)
-        self.assertEqual(c2.color, BLACK)
+        self.assertEqual(c1.__color__, WHITE)
+        self.assertEqual(c2.__color__, BLACK)
 
         for c in (c1, c2):
-            self.assertIsNone(c.position)
-            self.assertFalse(c.on_bar)
-            self.assertFalse(c.borne_off)
+            self.assertIsNone(c.__position__)
+            self.assertFalse(c.__on_bar__)
+            self.assertFalse(c.__borne_off__)
             self.assertTrue(c.is_active())  # activa aunque sin posición
 
         self.assertIn("Blanca", repr(c1))
@@ -28,9 +28,9 @@ class TestChecker(unittest.TestCase):
     def test_move_to_point_updates_all_states(self):
         c = Checker(WHITE)
         c.move_to_point(10)
-        self.assertEqual(c.position, 10)
-        self.assertFalse(c.on_bar)
-        self.assertFalse(c.borne_off)
+        self.assertEqual(c.__position__, 10)
+        self.assertFalse(c.__on_bar__)
+        self.assertFalse(c.__borne_off__)
         self.assertIn("punto 11", repr(c))
         # mover nuevamente a otro punto
         c.move_to_point(0)
@@ -43,13 +43,13 @@ class TestChecker(unittest.TestCase):
         c = Checker(WHITE)
         c.move_to_point(5)
         c.send_to_bar()
-        self.assertIsNone(c.position)
-        self.assertTrue(c.on_bar)
-        self.assertFalse(c.borne_off)
+        self.assertIsNone(c.__position__)
+        self.assertTrue(c.__on_bar__)
+        self.assertFalse(c.__borne_off__)
         self.assertIn("en barra", repr(c))
         # si la volvemos a enviar a barra, no rompe nada
         c.send_to_bar()
-        self.assertTrue(c.on_bar)
+        self.assertTrue(c.__on_bar__)
 
     # --------------------------------------------------
     # 4. Sacar del tablero (borne off)
@@ -58,13 +58,13 @@ class TestChecker(unittest.TestCase):
         c = Checker(BLACK)
         c.move_to_point(7)
         c.bear_off()
-        self.assertTrue(c.borne_off)
-        self.assertFalse(c.on_bar)
-        self.assertIsNone(c.position)
+        self.assertTrue(c.__borne_off__)
+        self.assertFalse(c.__on_bar__)
+        self.assertIsNone(c.__position__)
         self.assertIn("fuera del tablero", repr(c))
         # si la volvemos a sacar, no cambia estado
         c.bear_off()
-        self.assertTrue(c.borne_off)
+        self.assertTrue(c.__borne_off__)
 
     # --------------------------------------------------
     # 5. Transiciones combinadas
@@ -73,16 +73,16 @@ class TestChecker(unittest.TestCase):
         c = Checker(WHITE)
         c.move_to_point(3)
         c.send_to_bar()
-        self.assertTrue(c.on_bar)
-        self.assertFalse(c.borne_off)
+        self.assertTrue(c.__on_bar__)
+        self.assertFalse(c.__borne_off__)
         c.bear_off()
-        self.assertTrue(c.borne_off)
-        self.assertFalse(c.on_bar)
+        self.assertTrue(c.__borne_off__)
+        self.assertFalse(c.__on_bar__)
         c.move_to_point(15)
         # volver al tablero debería reactivar
-        self.assertFalse(c.borne_off)
-        self.assertFalse(c.on_bar)
-        self.assertEqual(c.position, 15)
+        self.assertFalse(c.__borne_off__)
+        self.assertFalse(c.__on_bar__)
+        self.assertEqual(c.__position__, 15)
 
     # --------------------------------------------------
     # 6. is_active en todos los estados

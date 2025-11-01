@@ -6,13 +6,13 @@ class Dice:
     """Lógica de tiradas de los dados del Backgammon."""
 
     def __init__(self, rng=None):
-        self.rng = rng or random.Random()
-        self.values = []  # ejemplo: [3, 5] o [6, 6, 6, 6]
+        self.__rng__ = rng or random.Random()
+        self.__values__ = []  # ejemplo: [3, 5] o [6, 6, 6, 6]
 
     def roll(self):
         """Tira los dados y devuelve una lista de valores disponibles."""
-        d1 = self.rng.randint(1, 6)
-        d2 = self.rng.randint(1, 6)
+        d1 = self.__rng__.randint(1, 6)
+        d2 = self.__rng__.randint(1, 6)
         if d1 == d2:
             self.values = [d1, d1, d1, d1]
         else:
